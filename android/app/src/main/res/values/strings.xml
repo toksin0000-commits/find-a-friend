@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Find a Friend</string>
+    <string name="title_activity_main">Find a Friend</string>
+    <string name="package_name">com.toksin.findafriend</string>
+    <string name="custom_url_scheme">com.toksin.findafriend</string>
+</resources>
