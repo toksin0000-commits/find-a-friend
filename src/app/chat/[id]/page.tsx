@@ -2,7 +2,6 @@ export const dynamic = "force-dynamic";
 
 console.log("CHAT PAGE LOADED");
 
-import { supabaseServer } from "@/lib/supabaseServer";
 import ChatPageClient from "./ChatPageClient";
 import { redirect } from "next/navigation";
 
@@ -13,6 +12,10 @@ export default async function ChatPage({
 }) {
   const { id: chatId } = params;
   console.log("CHAT PAGE PARAM ID:", chatId);
+
+  // Lazy import Supabase
+  const { getSupabaseServer } = await import("@/lib/supabaseServer");
+  const supabaseServer = getSupabaseServer();
 
   const { data: chat } = await supabaseServer
     .from("matches")
