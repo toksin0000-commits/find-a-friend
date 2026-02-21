@@ -1,0 +1,522 @@
+@import "tailwindcss";
+
+body { 
+  font-family: Arial, Helvetica, sans-serif; 
+}
+
+/* === ORBIT PRSTENCŮ === */
+@keyframes orbit1 {
+  0% { transform: translateX(0) translateY(0) rotate(0deg) scale(1); }
+  25% { transform: translateX(8px) translateY(-6px) rotate(90deg) scale(1.1); }
+  50% { transform: translateX(6px) translateY(10px) rotate(180deg) scale(0.9); }
+  75% { transform: translateX(-4px) translateY(8px) rotate(270deg) scale(1.05); }
+  100% { transform: translateX(0) translateY(0) rotate(360deg) scale(1); }
+}
+
+
+.orbit1-with-text::before {
+  content: "YOU";                    /* ← změň text zde */
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;               /* ≈14px – uprav: 0.75rem (malý), 1rem (střední), 1.125rem (větší) */
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: white;
+  text-shadow: 
+    0 0 6px rgba(255,255,255,0.7),
+    0 1px 2px rgba(0,0,0,0.4);
+  pointer-events: none;
+  z-index: 10;
+}
+
+
+@keyframes float-sine {
+  0%   { transform: translateY(0px); }
+  25%  { transform: translateY(-12px); }
+  50%  { transform: translateY(0px); }
+  75%  { transform: translateY(12px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float-sine {
+  animation: float-sine 8s linear infinite;   /* linear → konstantní rychlost, žádné zpomalení na koncích */
+}
+
+
+
+@keyframes orbit2 {
+  0% { transform: translateX(0) translateY(0) rotate(0deg); }
+  33% { transform: translateX(-10px) translateY(6px) rotate(120deg); }
+  66% { transform: translateX(8px) translateY(-8px) rotate(240deg); }
+  100% { transform: translateX(0) translateY(0) rotate(360deg); }
+}
+
+@keyframes orbit3 {
+  0%, 100% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.2) translateY(-2px); }
+}
+
+.orbit1 { animation: orbit1 8s ease-in-out infinite; }
+.orbit2 { animation: orbit2 6s ease-in-out infinite; }
+.orbit3 { animation: orbit3 4s ease-in-out infinite; }
+
+/* === ROTACE ZEMĚKOULE === */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow { animation: spin-slow 20s linear infinite; }
+
+/* === ANIMACE ČÁR === */
+/* 10 ROTACNÍCH ANIMACÍ ČÁR */
+@keyframes line-rotate1 {
+  0%, 100% { transform: rotate(-50deg) translateX(0); }
+  50% { transform: rotate(-50deg) translateX(20px); }
+}
+
+@keyframes line-rotate2 {
+  0%, 100% { transform: rotate(45deg) translateY(0); }
+  50% { transform: rotate(45deg) translateY(-15px); }
+}
+
+@keyframes line-rotate3 {
+  0%, 100% { transform: rotate(30deg) translateX(0); }
+  50% { transform: rotate(30deg) translateX(-25px); }
+}
+
+@keyframes line-rotate4 {
+  0%, 100% { transform: rotate(-30deg) translateY(0); }
+  50% { transform: rotate(-30deg) translateY(12px); }
+}
+
+@keyframes line-rotate5 {
+  0%, 100% { transform: rotate(60deg) translateX(0); }
+  50% { transform: rotate(60deg) translateX(-18px); }
+}
+
+@keyframes line-rotate6 {
+  0%, 100% { transform: rotate(-70deg) translateY(0); }
+  50% { transform: rotate(-70deg) translateY(-20px); }
+}
+
+@keyframes line-rotate7 {
+  0%, 100% { transform: rotate(15deg) translateX(0); }
+  50% { transform: rotate(15deg) translateX(30px); }
+}
+
+@keyframes line-rotate8 {
+  0%, 100% { transform: rotate(-15deg) translateY(0); }
+  50% { transform: rotate(-15deg) translateY(18px); }
+}
+
+@keyframes line-rotate9 {
+  0%, 100% { transform: rotate(80deg) translateX(0); }
+  50% { transform: rotate(80deg) translateX(-22px); }
+}
+
+@keyframes line-rotate10 {
+  0%, 100% { transform: rotate(-80deg) translateY(0); }
+  50% { transform: rotate(-80deg) translateY(25px); }
+}
+
+/* FLOAT ANIMACE */
+@keyframes line-float1 {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(1.1); }
+}
+
+@keyframes line-float2 {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(2deg) scale(1.15); }
+}
+
+@keyframes line-float3 {
+  0%, 100% { transform: scale(1) translateX(0); }
+  50% { transform: scale(1.2) translateX(10px); }
+}
+
+/* === VŠECHNY KLA SY === */
+.line-rotate1 { animation: line-rotate1 6s ease-in-out infinite; }
+.line-rotate2 { animation: line-rotate2 8s ease-in-out infinite; }
+.line-rotate3 { animation: line-rotate3 7s ease-in-out infinite; }
+.line-rotate4 { animation: line-rotate4 5s ease-in-out infinite; }
+.line-rotate5 { animation: line-rotate5 9s ease-in-out infinite; }
+.line-rotate6 { animation: line-rotate6 6s ease-in-out infinite; }
+.line-rotate7 { animation: line-rotate7 8s ease-in-out infinite; }
+.line-rotate8 { animation: line-rotate8 4s ease-in-out infinite; }
+.line-rotate9 { animation: line-rotate9 10s ease-in-out infinite; }
+.line-rotate10 { animation: line-rotate10 7s ease-in-out infinite; }
+
+.line-float1 { animation: line-float1 5s ease-in-out infinite; }
+.line-float2 { animation: line-float2 6s ease-in-out infinite; }
+.line-float3 { animation: line-float3 4s ease-in-out infinite; }
+
+/* === LAZER PULZOVÁNÍ ČÁR === */
+/* LASERY KTERÉ ÚPLNĚ MIZÍ! */
+/* MIZENÍ Z LAVÉ STRANY */
+@keyframes laser1 { 
+  0% { opacity: 0; clip-path: inset(0 0 0 0); }
+  50% { opacity: 1; clip-path: inset(0 0 0 50%); }
+  100% { opacity: 0; clip-path: inset(0 100% 0 0); }
+}
+
+/* MIZENÍ Z PRAVÉ STRANY */
+@keyframes laser2 { 
+  0% { opacity: 0; clip-path: inset(0 0 0 0); }
+  50% { opacity: 1; clip-path: inset(0 50% 0 0); }
+  100% { opacity: 0; clip-path: inset(0 0 0 100%); }
+}
+
+/* STŘED → OKRAJE */
+@keyframes laser3 { 
+  0% { opacity: 0; clip-path: inset(0); }
+  50% { opacity: 1; clip-path: inset(20% 0 20% 0); }
+  100% { opacity: 0; clip-path: inset(100%); }
+}
+
+/* VLNY ZLEVA */
+@keyframes laser4 { 
+  0% { opacity: 0; width: 100%; }
+  50% { opacity: 1; width: 50%; }
+  100% { opacity: 0; width: 0%; transform-origin: left; }
+}
+
+/* VLNY ZPRAVA */
+@keyframes laser5 { 
+  0% { opacity: 0; width: 100%; }
+  50% { opacity: 1; width: 50%; }
+  100% { opacity: 0; width: 0%; transform-origin: right; }
+}
+
+
+/* ========================================== */
+/* LASER 6-10 = TECHNO CYBERPUNK FÁZE! */
+/* ========================================== */
+
+/* LASER6: RYBÍ OCHI + EXPLOZE */
+@keyframes laser6 { 
+  0% { opacity: 1; clip-path: circle(0%); transform: scale(0.3); }
+  30% { opacity: 1; clip-path: circle(50%); transform: scale(1.2); }
+  60% { opacity: 0.8; clip-path: circle(100%); transform: scale(0.8); }
+  100% { opacity: 0; clip-path: circle(0%); transform: scale(2); }
+}
+
+/* LASER7: ZIG-ZAG MIZENÍ */
+@keyframes laser7 { 
+  0% { opacity: 1; clip-path: inset(0 0 0 0); }
+  20% { opacity: 1; clip-path: inset(0 30% 0 0); }
+  40% { opacity: 1; clip-path: inset(0 0 0 40%); }
+  60% { opacity: 0.5; clip-path: inset(40% 0 0 0); }
+  80% { opacity: 0.2; clip-path: inset(0 40% 40% 0); }
+  100% { opacity: 0; clip-path: inset(100%); }
+}
+
+/* LASER8: PULS + SHRINK */
+@keyframes laser8 { 
+  100% { opacity: 0; width: 100%; height: 2px; transform: scaleX(1); }
+  25% { opacity: 0; width: 120%; height: 3px; transform: scaleX(1.2); }
+  50% { opacity: 1; width: 60%; height: 1px; transform: scaleX(0.6); }
+  75% { opacity: 0.3; width: 20%; height: 4px; transform: scaleX(0.2); }
+  100% { opacity: 0; width: 0%; height: 0px; transform: scaleX(0); }
+}
+
+/* LASER9: GLITCH EFEKT */
+@keyframes laser9 { 
+  0% { opacity: 1; clip-path: inset(0); transform: translateX(0); }
+  15% { opacity: 0.1; clip-path: inset(0 20% 0 20%); transform: translateX(10px); }
+  30% { opacity: 1; clip-path: inset(0); transform: translateX(-5px); }
+  45% { opacity: 0.2; clip-path: inset(30% 0 30% 0); transform: translateX(15px); }
+  70% { opacity: 1; clip-path: inset(0); transform: translateX(0); }
+  100% { opacity: 0; clip-path: inset(100%); transform: translateX(0); }
+}
+
+/* LASER10: HYPERSPACE PORTÁL */
+@keyframes laser10 { 
+  0% { opacity: 1; border-radius: 0; box-shadow: 0 0 5px currentColor; transform: scale(1); }
+  20% { opacity: 1; border-radius: 50%; box-shadow: 0 0 20px currentColor; transform: scale(1.5); }
+  40% { opacity: 0.7; border-radius: 0; box-shadow: 0 0 30px currentColor; transform: scale(0.5) rotate(180deg); }
+  60% { opacity: 0.3; border-radius: 50%; box-shadow: 0 0 50px currentColor; transform: scale(2) rotate(360deg); }
+  80% { opacity: 0.1; border-radius: 0; box-shadow: 0 0 10px currentColor; transform: scale(0.1); }
+  100% { opacity: 0; border-radius: 50%; box-shadow: none; transform: scale(0); }
+}
+
+
+
+.laser1 { animation: laser1 3s ease-in-out infinite; }
+.laser2 { animation: laser2 4s ease-in-out infinite; }
+.laser3 { animation: laser3 5s ease-in-out infinite; }
+.laser4 { animation: laser4 6s ease-in-out infinite; }
+.laser5 { animation: laser5 7s ease-in-out infinite; }
+.laser6 { animation: laser6 8s ease-in-out infinite; }
+.laser7 { animation: laser7 9s ease-in-out infinite; }
+.laser8 { animation: laser8 10s ease-in-out infinite; }
+.laser9 { animation: laser9 11s ease-in-out infinite; }
+.laser10 { animation: laser10 12s ease-in-out infinite; }
+
+.laser-flow { 
+  background-size: 200% 100% !important;
+  animation: laser-flow 2s linear infinite; 
+}
+
+
+/* === VŠECHNYN ANIMACE OPRAVENÉ === */
+@keyframes laser-flow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+.laser1, .laser2, .laser3, .laser4, .laser5, 
+.laser6, .laser7, .laser8, .laser9, .laser10,
+.line-rotate1, .line-rotate2, .line-rotate3, .line-rotate4, .line-rotate5,
+.line-rotate6, .line-rotate7, .line-rotate8, .line-rotate9, .line-rotate10 {
+  transform-origin: center !important;
+  will-change: opacity, transform !important;
+}
+
+.laser-flow { 
+  background-size: 200% 100% !important;
+  animation: laser-flow 2s linear infinite; 
+}
+
+
+@keyframes orbit1-move {
+  0%   { transform: translateX(0) translateY(0); }
+  25%  { transform: translateX(8px) translateY(-6px); }
+  50%  { transform: translateX(6px) translateY(10px); }
+  75%  { transform: translateX(-4px) translateY(8px); }
+  100% { transform: translateX(0) translateY(0); }
+}
+
+@keyframes orbit2-move {
+  0%   { transform: translateX(0) translateY(0); }
+  33%  { transform: translateX(-10px) translateY(6px); }
+  66%  { transform: translateX(8px) translateY(-8px); }
+  100% { transform: translateX(0) translateY(0); }
+}
+
+.orbit1-move { animation: orbit1-move 8s ease-in-out infinite; }
+.orbit2-move { animation: orbit2-move 6s ease-in-out infinite; }
+
+
+@keyframes globe-shake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-2px, 1px) rotate(-2deg); }
+  40% { transform: translate(2px, -1px) rotate(2deg); }
+  60% { transform: translate(-2px, 1px) rotate(-1deg); }
+  80% { transform: translate(2px, -1px) rotate(1deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.animate-globe-shake {
+  animation: globe-shake var(--shake-duration, 250ms) ease-in-out;
+}
+
+
+
+@keyframes globe-breath {
+  0% { transform: scale(1); }
+  50% { transform: scale(var(--breath-scale, 1.04)); }
+  100% { transform: scale(1); }
+}
+
+.animate-globe-breath {
+  animation: globe-breath var(--breath-duration, 4000ms) ease-in-out infinite;
+}
+
+.planet-fill {
+  background: linear-gradient(
+    to bottom right,
+    var(--planet-from),
+    var(--planet-via),
+    var(--planet-to)
+  );
+}
+
+.planet-fill-active:active {
+  background: linear-gradient(
+    to bottom right,
+    var(--planet-active-from),
+    var(--planet-active-via),
+    var(--planet-active-to)
+  );
+}
+
+
+.ring-click {
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.ring-click:active {
+  transform: scale(0.92);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
+}
+
+
+@keyframes haptic-bump {
+  0%   { transform: scale(1) rotate(0deg); }
+  20%  { transform: scale(0.92) rotate(-2deg); }
+  40%  { transform: scale(1.04) rotate(1deg); }
+  60%  { transform: scale(0.98) rotate(-1deg); }
+  80%  { transform: scale(1.02) rotate(0.5deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+/* haptika (už máš) */
+.haptic {
+  animation: haptic-bump 140ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* barva při dotyku */
+.orbit2-active {
+  background: linear-gradient(
+    to left,
+    rgba(255, 0, 242, 0.8),
+    rgba(255, 200, 0, 0.8),
+    rgba(255, 0, 247, 0.8)
+  ) !important;
+  box-shadow: 0 0 20px rgba(230, 0, 255, 0.8);
+}
+
+
+
+@keyframes nebula-fade {
+  0%   { opacity: 0.55; }   /* plná síla */
+  25%  { opacity: 0.0; }    /* rychlé zhasnutí */
+  100% { opacity: 0.55; }   /* pomalé rozsvěcení */
+}
+
+@keyframes stardust-fade {
+  0%   { opacity: 0.55; }
+  20%  { opacity: 0.05; }   /* rychlé zhasnutí */
+  100% { opacity: 0.55; }   /* pomalé rozsvěcení */
+}
+
+@keyframes stars-fade {
+  0%   { opacity: 0.35; }
+  15%  { opacity: 0.12; }   /* rychlé zhasnutí */
+  100% { opacity: 0.35; }   /* pomalé rozsvěcení */
+}
+
+
+.globe-ring-active {
+  position: relative;
+  overflow: visible !important; /* absolutně nutné */
+}
+
+.globe-ring-active::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 160px;   /* větší než globe */
+  height: 160px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 9999;
+  transition: opacity 0.05s ease-out;
+}
+
+.globe-ring-active:active::after {
+  opacity: 1;
+  box-shadow:
+    0 0 40px 20px rgb(255, 255, 0),
+    0 0 80px 40px rgb(255, 255, 0);
+}
+
+@keyframes sentPop {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.3;
+  }
+  60% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-sent {
+  animation: sentPop 0.22s ease-out;
+}
+
+@keyframes enter-blink {
+  0%   { opacity: 0.7; }
+  50%  { opacity: 0.25; }
+  100% { opacity: 0.7; }
+}
+
+.enter-blink {
+  animation: enter-blink 1.8s ease-in-out infinite;
+}
+
+@keyframes blink-left {
+  0%, 100% { opacity: 0.2; transform: translateY(-2px); }
+  50% { opacity: 1; transform: translateY(-5px); }
+}
+
+@keyframes blink-right {
+  0%, 100% { opacity: 1; transform: translateY(-2px); }
+  50% { opacity: 0.2; transform: translateY(-5px); }
+}
+
+.blink-left {
+  animation: blink-left 1.2s infinite ease-in-out;
+}
+
+.blink-right {
+  animation: blink-right 1.2s infinite ease-in-out;
+}
+
+@keyframes blink-enter {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.blink-enter {
+  animation: blink-enter 2.4s infinite ease-in-out;
+}
+
+
+.planet-fill {
+  --planet-current-from: var(--planet-from);
+  --planet-current-via: var(--planet-via);
+  --planet-current-to: var(--planet-to);
+}
+
+.planet-fill[style*="--planet-mode: active"] {
+  --planet-current-from: var(--planet-active-from);
+  --planet-current-via: var(--planet-active-via);
+  --planet-current-to: var(--planet-active-to);
+}
+
+.planet-fill {
+  background: radial-gradient(
+    circle,
+    var(--planet-current-from),
+    var(--planet-current-via),
+    var(--planet-current-to)
+  );
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out forwards;
+}
