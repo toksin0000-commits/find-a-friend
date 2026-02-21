@@ -91,9 +91,10 @@ export async function GET(req: Request) {
 
     // ===== REPORTY =====
     const { data: reports, error } = await supabase
-      .from("reports")
-      .select("*")
-      .order("created_at", { ascending: false });
+  .from("reports")
+  .select("id, sender_id, reported_id, reason, details, chat_id, created_at")
+  .order("created_at", { ascending: false });
+
 
     if (error) {
       console.error("Chyba při načítání reportů:", error);

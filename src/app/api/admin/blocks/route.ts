@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
-// 🔥 Ověření admina přes admin token
 function verifyAdmin(req: Request) {
   const token = req.headers.get("x-admin-token");
   return token && token === process.env.ADMIN_SECRET;
@@ -14,12 +13,11 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
 
-    // ⭐ MUST: vytvořit server klienta
     const supabase = supabaseServer();
 
     const { data, error } = await supabase
       .from("blocks")
-      .select("*")
+      .select("id, blocker_id, blocked_id, reason, blocked_by_admin, created_at")
       .order("created_at", { ascending: false });
 
     if (error) {
@@ -30,10 +28,7 @@ export async function GET(req: Request) {
     return NextResponse.json({ blocks: data || [] });
   } catch (error) {
     console.error("Neočekávaná chyba:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
 
@@ -50,13 +45,13 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "Missing blockId" }, { status: 400 });
     }
 
-    // ⭐ MUST: vytvořit server klienta
     const supabase = supabaseServer();
 
+    // POZOR: id je BIGINT → musí být číslo
     const { error } = await supabase
       .from("blocks")
       .delete()
-      .eq("id", blockId);
+      .eq("id", Number(blockId));
 
     if (error) {
       console.error("Chyba při mazání blokace:", error);
@@ -66,9 +61,6 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Neočekávaná chyba:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
