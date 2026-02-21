@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
+const supabase = getSupabase();
+
 import { useAnonId } from "@/lib/useAnonId";
 
 export function usePresence(country: string) {

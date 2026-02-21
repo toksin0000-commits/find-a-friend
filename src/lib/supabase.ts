@@ -1,19 +1,22 @@
 "use client";
 
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+let client: SupabaseClient | null = null;
 
-// During Railway build, env vars are missing → avoid initializing Supabase.
-const isBuild = !url || !key;
+export function getSupabase(): SupabaseClient {
+  if (!client) {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-export const supabase = isBuild
-  ? null
-  : createClient(url, key, {
+    client = createClient(url, key, {
       realtime: {
         params: {
           eventsPerSecond: 10,
         },
       },
     });
+  }
+
+  return client;
+}

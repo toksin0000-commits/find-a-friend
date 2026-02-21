@@ -15,13 +15,22 @@ export default async function ChatPage({
   // ⭐ ZÍSKAT SERVEROVÝ SUPABASE KLIENT
   const supabase = supabaseServer();
 
-  const { data: chat } = await supabase
+  console.log("BEFORE SUPABASE QUERY");
+
+  const { data: chat, error } = await supabase
     .from("matches")
     .select("*")
     .eq("chat_id", chatId)
-    .single();
+    .maybeSingle(); // ⭐ místo .single()
+
+  console.log("AFTER SUPABASE QUERY", { chat, error });
+
+  if (error) {
+    console.error("SUPABASE ERROR:", error);
+  }
 
   if (!chat) {
+    console.log("NO CHAT FOUND → redirecting");
     redirect("/");
   }
 

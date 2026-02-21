@@ -1,4 +1,6 @@
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
+const supabase = getSupabase();
+
 
 // Haversine distance
 function distanceKm(

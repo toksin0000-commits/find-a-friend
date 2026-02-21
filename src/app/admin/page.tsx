@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import AdminPresenceWidget from "./AdminPresenceWidget";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
+const supabase = getSupabase();
 
 // ===== TYPES =====
 interface Report {

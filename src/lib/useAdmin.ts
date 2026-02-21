@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { supabase } from './supabase';
+import { getSupabase } from "@/lib/supabase";
+const supabase = getSupabase();
 
 export function useAdmin() {
   const [isAdmin, setIsAdmin] = useState(false);

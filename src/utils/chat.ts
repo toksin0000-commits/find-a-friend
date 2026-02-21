@@ -1,4 +1,6 @@
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
+const supabase = getSupabase();
+
 
 export async function createOrGetChat(a: string, b: string) {
   console.log("createOrGetChat a:", a);

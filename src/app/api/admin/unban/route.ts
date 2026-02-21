@@ -19,7 +19,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing userId" }, { status: 400 });
     }
 
-    const { error } = await supabaseServer
+    // ⭐ ZÍSKAT SERVEROVÝ SUPABASE KLIENT
+    const supabase = supabaseServer();
+
+    const { error } = await supabase
       .from("profiles")
       .update({
         banned: false,

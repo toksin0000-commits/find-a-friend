@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
+const supabase = getSupabase();
+
 
 export function getProfileName(anonId?: string | null) {
   const [name, setName] = useState<string | null>(null);

@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
-import { supabase } from "@/lib/supabase"; // FE klient
+import { getSupabase } from "@/lib/supabase";
+const supabase = getSupabase();
 
 // ✔️ Validátor UUID
 function isValidUUID(str: string | null): boolean {

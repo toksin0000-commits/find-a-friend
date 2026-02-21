@@ -1,16 +1,19 @@
 "use client";
 
+
 import { useEffect, useState, useRef } from "react";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import { useBlockedUsers } from '@/hooks/useBlockedUsers';
 import { usePresence } from "@/hooks/usePresence"; // 🔥 přidáno
 
 export default function ChatPageClient({ chatId }: { chatId: string }) {
+  console.log("CLIENT COMPONENT LOADED");
   const router = useRouter();
 
   // 🔥 Lokální presence pro tento chat room
   const { onlineCount } = usePresence(`room-${chatId}`);
+  const supabase = getSupabase();
 
   // 🔥 Neviditelný element, aby React hook neoptimalizoval pryč
   const presenceAnchor = (
