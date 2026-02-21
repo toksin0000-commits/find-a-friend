@@ -154,11 +154,14 @@ export default function YouForm() {
     if (!anonId) return;
 
     const loadPreferences = async () => {
-      const { data } = await supabase
-        .from("preferences")
-        .select("*")
-        .eq("anon_id", anonId)
-        .single();
+      if (!supabase) return;
+
+const { data } = await supabase
+  .from("preferences")
+  .select("*")
+  .eq("anon_id", anonId)
+  .single();
+
 
       if (data) {
         setForm({
@@ -210,12 +213,18 @@ export default function YouForm() {
 
 
 
-  const { error } = await supabase.from("preferences").upsert(payload);
+  if (!supabase) {
+  console.warn("Supabase is disabled during build.");
+  return;
+}
 
-  if (error) {
-    console.error("Error saving preferences:", error);
-    return;
-  }
+const { error } = await supabase.from("preferences").upsert(payload);
+
+if (error) {
+  console.error("Error saving preferences:", error);
+  return;
+}
+
 
   // 🔥 SAVE + GO HOME
   window.location.href = "/";
