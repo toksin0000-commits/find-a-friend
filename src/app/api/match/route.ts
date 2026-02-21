@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import { supabaseServer as supabase } from "@/lib/supabaseServer";
+import { supabaseServer } from "@/lib/supabaseServer";
+
+const supabase = supabaseServer();
 
 // SOFT DISTANCE (one‑sided) – helper
 function haversine(lat1?: number | null, lon1?: number | null, lat2?: number | null, lon2?: number | null) {
@@ -22,6 +24,7 @@ function haversine(lat1?: number | null, lon1?: number | null, lat2?: number | n
 
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
+
 
 export async function POST(req: Request) {
   const { anonId, chatId } = await req.json();
