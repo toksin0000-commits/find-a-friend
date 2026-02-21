@@ -14,12 +14,14 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
 
+    const supabase = supabaseServer(); // ⭐ MUST
+
     const { searchParams } = new URL(req.url);
     const chatId = searchParams.get("chat");
 
     // Pokud je chatId → načíst chat
     if (chatId) {
-      const { data: messages, error: msgError } = await supabaseServer
+      const { data: messages, error: msgError } = await supabase
         .from("messages")
         .select("*")
         .eq("chat_id", chatId)
@@ -30,7 +32,7 @@ export async function GET(req: Request) {
         return NextResponse.json({ messages: [], match: null });
       }
 
-      const { data: match, error: matchError } = await supabaseServer
+      const { data: match, error: matchError } = await supabase
         .from("matches")
         .select("*")
         .eq("chat_id", chatId)
@@ -42,12 +44,13 @@ export async function GET(req: Request) {
 
       // Dohledat jména odesílatelů
       const messagesWithSenders = await Promise.all(
-        (messages || []).map(async (msg) => {
+        (messages || []).map(async (msg: any) => {
+
           if (msg.sender_id === "system") {
             return { ...msg, sender: { name: "System" } };
           }
 
-          const { data: sender } = await supabaseServer
+          const { data: sender } = await supabase
             .from("profiles")
             .select("name")
             .eq("anon_id", msg.sender_id)
@@ -61,12 +64,12 @@ export async function GET(req: Request) {
       let matchWithProfiles = null;
       if (match) {
         const [user1, user2] = await Promise.all([
-          supabaseServer
+          supabase
             .from("profiles")
             .select("name")
             .eq("anon_id", match.user1_id)
             .maybeSingle(),
-          supabaseServer
+          supabase
             .from("profiles")
             .select("name")
             .eq("anon_id", match.user2_id)
@@ -87,7 +90,7 @@ export async function GET(req: Request) {
     }
 
     // ===== REPORTY =====
-    const { data: reports, error } = await supabaseServer
+    const { data: reports, error } = await supabase
       .from("reports")
       .select("*")
       .order("created_at", { ascending: false });
@@ -98,14 +101,15 @@ export async function GET(req: Request) {
     }
 
     const reportsWithProfiles = await Promise.all(
-      (reports || []).map(async (report) => {
-        const { data: reporter } = await supabaseServer
+      (reports || []).map(async (report: any) => {
+
+        const { data: reporter } = await supabase
           .from("profiles")
           .select("name")
           .eq("anon_id", report.sender_id)
           .maybeSingle();
 
-        const { data: reported } = await supabaseServer
+        const { data: reported } = await supabase
           .from("profiles")
           .select("name")
           .eq("anon_id", report.reported_id)
@@ -136,13 +140,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
 
+    const supabase = supabaseServer(); // ⭐ MUST
+
     const { blockedId, reason } = await req.json();
 
     if (!blockedId) {
       return NextResponse.json({ error: "Missing blockedId" }, { status: 400 });
     }
 
-    const { error } = await supabaseServer.from("blocks").insert({
+    const { error } = await supabase.from("blocks").insert({
       blocker_id: "00000000-0000-0000-0000-000000000000",
       blocked_id: blockedId,
       reason: reason || "Blocked by admin",
@@ -171,6 +177,8 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
 
+    const supabase = supabaseServer(); // ⭐ MUST
+
     const { type, id } = await req.json();
 
     if (!type || !id) {
@@ -181,7 +189,7 @@ export async function DELETE(req: Request) {
     }
 
     if (type === "report") {
-      const { error } = await supabaseServer
+      const { error } = await supabase
         .from("reports")
         .delete()
         .eq("id", id);
@@ -194,7 +202,7 @@ export async function DELETE(req: Request) {
         );
       }
     } else if (type === "block") {
-      const { error } = await supabaseServer
+      const { error } = await supabase
         .from("blocks")
         .delete()
         .eq("id", id);

@@ -12,7 +12,10 @@ export async function POST(req: Request) {
     });
   }
 
-  const { error } = await supabaseServer
+  // ⭐ MUST: create server client instance
+  const supabase = supabaseServer();
+
+  const { error } = await supabase
     .from("matches")
     .delete()
     .or(

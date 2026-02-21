@@ -14,7 +14,10 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
 
-    const { data, error } = await supabaseServer
+    // ⭐ MUST: vytvořit server klienta
+    const supabase = supabaseServer();
+
+    const { data, error } = await supabase
       .from("blocks")
       .select("*")
       .order("created_at", { ascending: false });
@@ -47,7 +50,10 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "Missing blockId" }, { status: 400 });
     }
 
-    const { error } = await supabaseServer
+    // ⭐ MUST: vytvořit server klienta
+    const supabase = supabaseServer();
+
+    const { error } = await supabase
       .from("blocks")
       .delete()
       .eq("id", blockId);

@@ -11,8 +11,11 @@ export async function POST(req: Request) {
 
     console.log('🗑️ Mažu účet pro anonId:', anonId);
 
-    // 1. Nejprve zkontrolujeme, jestli profil existuje
-    const { data: existingProfile, error: checkError } = await supabaseServer
+    // ⭐ MUST: vytvořit server klienta
+    const supabase = supabaseServer();
+
+    // 1. Zkontrolovat, jestli profil existuje
+    const { data: existingProfile, error: checkError } = await supabase
       .from('profiles')
       .select('anon_id')
       .eq('anon_id', anonId)
@@ -27,8 +30,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Profile not found' }, { status: 404 });
     }
 
-    // 2. Označíme účet jako smazaný
-    const { error: updateError } = await supabaseServer
+    // 2. Označit účet jako smazaný
+    const { error: updateError } = await supabase
       .from('profiles')
       .update({ 
         deleted_at: new Date().toISOString(),
