@@ -4,6 +4,7 @@
   "id": "https://findafriend.fun/",
   "start_url": "https://findafriend.fun/",
   "scope": "https://findafriend.fun/",
+  "url": "https://findafriend.fun/manifest.json",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
