@@ -22,11 +22,11 @@ plugins {
 
 def twaManifest = [
     applicationId: 'fun.findafriend.app',
-    hostName: 'findafriend.fun', // The domain being opened in the TWA.
+    hostName: 'find-a-friend.vercel.app', // The domain being opened in the TWA.
     launchUrl: '/', // The start path for the TWA. Must be relative to the domain.
     name: 'Find a Friend', // The application name.
-    launcherName: 'Friend', // The name shown on the Android Launcher.
-    themeColor: '#FFFFFF', // The color used for the status bar.
+    launcherName: 'Friends', // The name shown on the Android Launcher.
+    themeColor: '#000000', // The color used for the status bar.
     themeColorDark: '#000000', // The color used for the dark status bar.
     navigationColor: '#000000', // The color used for the navigation bar.
     navigationColorDark: '#000000', // The color used for the dark navbar.
@@ -47,7 +47,7 @@ def twaManifest = [
     // 'customtabs' and 'webview'.
     fallbackType: 'customtabs',
     enableSiteSettingsShortcut: 'true',
-    orientation: 'portrait',
+    orientation: 'default',
 ]
 
 android {
@@ -76,12 +76,12 @@ android {
             // The URL the Web Manifest for the Progressive Web App that the TWA points to. This
             // is used by Chrome OS and Meta Quest to open the Web version of the PWA instead of
             // the TWA, as it will probably give a better user experience for non-mobile devices.
-            resValue "string", "webManifestUrl", 'https://findafriend.fun/manifest.json'
+            resValue "string", "webManifestUrl", 'https://find-a-friend.vercel.app/manifest.json'
         
 
         
             // This is used by Meta Quest.
-            resValue "string", "fullScopeUrl", 'https://findafriend.fun/'
+            resValue "string", "fullScopeUrl", 'https://find-a-friend.vercel.app/'
         
 
         
