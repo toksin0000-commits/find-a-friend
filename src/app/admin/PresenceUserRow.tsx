@@ -1,6 +1,6 @@
 "use client";
 
-import { getProfileName } from "@/hooks/getProfileName";
+import { useProfileName } from "@/hooks/useProfileName";
 
 type PresenceUser = {
   id: string;
@@ -9,7 +9,7 @@ type PresenceUser = {
 };
 
 export function PresenceUserRow({ user }: { user: PresenceUser }) {
-  const { name, loading } = getProfileName(user.id);
+  const { name, loading } = useProfileName(user.id);
 
   return (
     <div
