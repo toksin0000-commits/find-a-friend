@@ -17,7 +17,8 @@ export default function AdminLoginPage() {
     }
 
     // 🔥 správný klíč
-    localStorage.setItem('admin_token', 'valid-admin-token');
+    localStorage.setItem('admin_token', 'toksin-admin-secret-983274982374');
+
 
     router.push('/admin');
   }
