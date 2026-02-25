@@ -16,13 +16,13 @@ export function useProfileName(anonId: string) {
       setLoading(true);
       try {
         const { data } = await supabase
-          .from("profiles")
-          .select("name")
+          .from("preferences")
+          .select("preferred_name") // musí existovat v DB
           .eq("anon_id", anonId)
           .maybeSingle();
 
         if (!cancelled) {
-          setName(data?.name ?? null);
+          setName(data?.preferred_name ?? null);
         }
       } finally {
         if (!cancelled) setLoading(false);
