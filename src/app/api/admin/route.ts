@@ -5,7 +5,6 @@ import { supabaseServer } from "@/lib/supabaseServer";
 function verifyAdmin(req: Request) {
   const token = req.headers.get("x-admin-token");
   return token === "toksin-admin-secret-983274982374";
-
 }
 
 // GET - načíst reporty nebo chat
@@ -46,7 +45,6 @@ export async function GET(req: Request) {
       // Dohledat jména odesílatelů
       const messagesWithSenders = await Promise.all(
         (messages || []).map(async (msg: any) => {
-
           if (msg.sender_id === "system") {
             return { ...msg, sender: { name: "System" } };
           }
@@ -92,10 +90,9 @@ export async function GET(req: Request) {
 
     // ===== REPORTY =====
     const { data: reports, error } = await supabase
-  .from("reports")
-  .select("id, sender_id, reported_id, reason, details, chat_id, created_at")
-  .order("created_at", { ascending: false });
-
+      .from("reports")
+      .select("id, sender_id, reported_id, reason, details, chat_id, created_at")
+      .order("created_at", { ascending: false });
 
     if (error) {
       console.error("Chyba při načítání reportů:", error);
@@ -104,7 +101,6 @@ export async function GET(req: Request) {
 
     const reportsWithProfiles = await Promise.all(
       (reports || []).map(async (report: any) => {
-
         const { data: reporter } = await supabase
           .from("profiles")
           .select("name")

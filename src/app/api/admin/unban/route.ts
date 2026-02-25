@@ -4,7 +4,7 @@ import { supabaseServer } from "@/lib/supabaseServer";
 // 🔥 Ověření admina přes admin token
 function verifyAdmin(req: Request) {
   const token = req.headers.get("x-admin-token");
-  return token && token === process.env.ADMIN_SECRET;
+  return token === "toksin-admin-secret-983274982374";
 }
 
 export async function POST(req: Request) {

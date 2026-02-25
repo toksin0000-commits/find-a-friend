@@ -4,7 +4,7 @@ import { supabaseServer } from "@/lib/supabaseServer";
 // 🔥 Ověření admina přes admin token
 function verifyAdmin(req: Request) {
   const token = req.headers.get("x-admin-token");
-  return token && token === process.env.ADMIN_SECRET;
+  return token === "toksin-admin-secret-983274982374";
 }
 
 // ===== BAN =====
@@ -20,8 +20,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing userId" }, { status: 400 });
     }
 
+    const supabase = supabaseServer();   // 🔥 MUSÍ BÝT TADY
+
     // 🔥 Zabanovat uživatele
-    const { error } = await supabaseServer
+    const { error } = await supabase
       .from("profiles")
       .update({
         banned: true,
@@ -37,7 +39,7 @@ export async function POST(req: Request) {
     }
 
     // 🔥 Volitelně: smazat aktivní matche
-    await supabaseServer
+    await supabase
       .from("matches")
       .delete()
       .or(`user1_id.eq.${userId},user2_id.eq.${userId}`);
@@ -65,7 +67,9 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "Missing userId" }, { status: 400 });
     }
 
-    const { error } = await supabaseServer
+    const supabase = supabaseServer();   // 🔥 MUSÍ BÝT TADY
+
+    const { error } = await supabase
       .from("profiles")
       .update({
         banned: false,

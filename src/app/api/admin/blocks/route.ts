@@ -3,8 +3,9 @@ import { supabaseServer } from "@/lib/supabaseServer";
 
 function verifyAdmin(req: Request) {
   const token = req.headers.get("x-admin-token");
-  return token && token === process.env.ADMIN_SECRET;
+  return token === "toksin-admin-secret-983274982374";
 }
+
 
 // GET – načíst všechny blokace
 export async function GET(req: Request) {
