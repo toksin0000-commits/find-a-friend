@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "fun.findafriend.www.twa",
+      "sha256_cert_fingerprints": [
+        "0E:48:54:64:A3:15:24:56:BF:FC:79:5D:A7:35:8B:20:1B:9D:41:1A:1A:2E:7C:58:25:1F:F6:53:25:1A:45:63"
+      ]
+    }
+  }
+]
