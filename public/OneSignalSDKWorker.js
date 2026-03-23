@@ -1,18 +1,19 @@
 /* eslint-disable no-undef */
 
-// 1. Okamžitá registrace handleru (řeší chybu sw.ts:20)
+// 1. Musíme definovat self.onmessage PŘED importem, 
+// aby prohlížeč viděl, že je tam handler hned od začátku.
+self.onmessage = function(event) {
+    console.log("SW: Počáteční zpráva zachycena:", event.data);
+};
+
+// 2. Přidáme listener pro jistotu i takto
 self.addEventListener('message', (event) => {
-    console.log("SW: Message received", event.data);
+    // Tady už to loguješ, to je v pořádku
 });
 
-// 2. DONUTÍME WORKER, ABY SE AKTIVOVAL HNED (řeší chybu postMessage)
-self.addEventListener('install', () => {
-    self.skipWaiting(); 
-});
+// 3. Vynutíme okamžitou aktivaci
+self.addEventListener('install', () => self.skipWaiting());
+self.addEventListener('activate', (event) => event.waitUntil(clients.claim()));
 
-self.addEventListener('activate', (event) => {
-    event.waitUntil(clients.claim()); 
-});
-
-// 3. Import OneSignal SDK
+// 4. TEPRVE TEĎ importujeme SDK
 importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');
