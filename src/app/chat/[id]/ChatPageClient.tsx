@@ -280,8 +280,10 @@ async function sendMessage() {
     content: input,
   });
 
-  // Poslat notifikaci druhému uživateli
+  // 🔔 ODESLÁNÍ NOTIFIKACE S LOGOVÁNÍM
     if (otherUser?.anon_id) {
+      console.log("DEBUG: Pokouším se odeslat notifikaci pro ID:", otherUser.anon_id);
+      
       fetch("/api/notify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -291,7 +293,16 @@ async function sendMessage() {
           message: input,
           chatId: chatId
         }),
-      }).catch(err => console.error("Notification failed:", err));
+      })
+      .then(async (res) => {
+        const data = await res.json();
+        console.log("DEBUG: Odpověď ze serveru:", res.status, data);
+      })
+      .catch(err => {
+        console.error("DEBUG: Kritická chyba fetch volání:", err);
+      });
+    } else {
+      console.warn("DEBUG: Notifikace neodeslána - chybí otherUser.anon_id!", otherUser);
     }
 
 
