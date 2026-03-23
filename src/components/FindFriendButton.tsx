@@ -15,6 +15,9 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAnonId } from "@/lib/useAnonId";
 import { playBeep, stopBeep, initBeep } from "@/lib/sound";
+// ⭐ Upravený import podle tvého souboru
+import { getSupabase } from "@/lib/supabase"; 
+
 import Globe from "./Globe";
 import Orbit1 from "./Orbit1";
 import Orbit2 from "./Orbit2";
@@ -22,6 +25,9 @@ import Orbit2 from "./Orbit2";
 export function FindFriendButton() {
   const anonId = useAnonId();
   const router = useRouter();
+  
+  // Inicializace supabase klienta přes tvou funkci
+  const supabase = getSupabase();
 
   const [searching, setSearching] = useState(false);
   const [counter, setCounter] = useState(1);
@@ -99,6 +105,12 @@ export function FindFriendButton() {
 
     setSearching(true);
     playBeep();
+
+    // 🔔 ODESLÁNÍ NOTIFIKACE (BUDÍČEK)
+    // Voláme tvou Edge funkci 'broadcast-search'
+    supabase.functions.invoke('broadcast-search').catch((err: any) => {
+      console.error("Nepodařilo se poslat notifikaci:", err);
+    });
 
     // COUNTER
     let i = 1;
