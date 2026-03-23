@@ -76,25 +76,26 @@ export default function ChatPageClient({ chatId }: { chatId: string }) {
 
     const { isBlocked, blockUser, unblockUser } = useBlockedUsers();
 
-  // LOAD MATCH + PROFILES
+ 
+    // LOAD MATCH + PROFILES
   useEffect(() => {
     async function loadMatch() {
-      const { data } = await supabase
+      const { data: matchData } = await supabase
         .from("matches")
         .select("*")
         .eq("chat_id", chatId)
         .maybeSingle();
 
-      if (!data) return;
+      if (!matchData) return;
+      setMatch(matchData);
 
-      setMatch(data);
-
-      if (anonId && anonId !== data.user1_id && anonId !== data.user2_id) {
-        const corrected = data.user2_id || data.user1_id;
+      // Oprava anon_id v localStorage, pokud nesedí
+      if (anonId && anonId !== matchData.user1_id && anonId !== matchData.user2_id) {
+        const corrected = matchData.user2_id || matchData.user1_id;
         localStorage.setItem("anon_id", corrected);
       }
 
-      // load my profile
+      // 1. Načtení MĚ (můj profil)
       if (anonId) {
         const { data: me } = await supabase
           .from("profiles")
@@ -104,9 +105,9 @@ export default function ChatPageClient({ chatId }: { chatId: string }) {
         setMyProfile(me);
       }
 
-      // load other profile
-      const otherId = anonId === data.user1_id ? data.user2_id : data.user1_id;
-
+      // 2. Načtení TOHO DRUHÉHO (pro notifikace)
+      const otherId = anonId === matchData.user1_id ? matchData.user2_id : matchData.user1_id;
+      
       if (otherId) {
         const { data: profile } = await supabase
           .from("profiles")
@@ -114,20 +115,23 @@ export default function ChatPageClient({ chatId }: { chatId: string }) {
           .eq("anon_id", otherId)
           .maybeSingle();
         
-        // 🚫 KONTROLA BANU
-        if (profile?.banned) {
-          alert("Your account has been banned. Contact support for more information.");
-          await supabase.from("matches").delete().eq("chat_id", chatId);
-          router.push("/");
-          return;
+        if (profile) {
+          if (profile.banned) {
+            alert("Partner has been banned.");
+            router.push("/");
+            return;
+          }
+          console.log("DEBUG: Načten profil druhého uživatele:", profile.name, "ID:", profile.anon_id);
+          setOtherUser(profile);
+        } else {
+          console.warn("DEBUG: Profil druhého uživatele nebyl nalezen v DB!");
         }
-        
-        setOtherUser(profile);
       }
     }
-
     loadMatch();
-  }, [chatId]);
+  }, [chatId, anonId]); // Přidáno anonId do závislostí pro jistotu
+
+  
 
   // LOAD MESSAGES
   useEffect(() => {
