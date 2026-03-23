@@ -7,6 +7,12 @@ import { useRouter } from "next/navigation";
 import { useBlockedUsers } from '@/hooks/useBlockedUsers';
 import { usePresence } from "@/hooks/usePresence"; // 🔥 přidáno
 
+declare global {
+  interface Window {
+    OneSignalDeferred: any[];
+  }
+}
+
 export default function ChatPageClient({ chatId }: { chatId: string }) {
   console.log("CLIENT COMPONENT LOADED");
   const router = useRouter();
@@ -58,6 +64,15 @@ export default function ChatPageClient({ chatId }: { chatId: string }) {
   function vibrate(pattern: number | number[]) {
     if (navigator.vibrate) navigator.vibrate(pattern);
   }
+
+  useEffect(() => {
+    if (anonId) {
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      window.OneSignalDeferred.push(function(OneSignal: any) {
+        OneSignal.login(anonId);
+      });
+    }
+  }, [anonId]);
 
     const { isBlocked, blockUser, unblockUser } = useBlockedUsers();
 
@@ -264,6 +279,21 @@ async function sendMessage() {
     sender_id: currentAnon,
     content: input,
   });
+
+  // Poslat notifikaci druhému uživateli
+    if (otherUser?.anon_id) {
+      fetch("/api/notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          receiverId: otherUser.anon_id,
+          senderName: myProfile?.name || "Someone",
+          message: input,
+          chatId: chatId
+        }),
+      }).catch(err => console.error("Notification failed:", err));
+    }
+
 
   // 🎵 Bezpečné přehrávání zvuku
   if (sendSound.current) {
