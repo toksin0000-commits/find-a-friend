@@ -16,9 +16,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="cs">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {/* PŘESUNUTO SEM DO BODY - Jistota, že se načte po vykreslení */}
         <Script
           src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"
           strategy="afterInteractive"
@@ -29,7 +28,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             window.OneSignalDeferred.push(async function(OneSignal) {
               await OneSignal.init({
                 appId: "1a3aa391-2859-44fe-bc66-5ca65ae32af0",
+                safari_web_id: "web.onesignal.auto.1090098e-4903-4552-95f3-c54784a6c6e7", // Pokud máš, jinak nevadí
+                notifyButton: {
+                  enable: true, // PŘIDÁNO: Zobrazí zvoneček pro ruční aktivaci (klíčové pro PWA)
+                },
+                allowLocalhostAsSecureOrigin: true,
               });
+
+              // POKUS O AUTOMATICKÉ PROPOJENÍ S ANON ID
+              const anonId = localStorage.getItem("anonId");
+              if (anonId) {
+                await OneSignal.login(anonId);
+                console.log("OneSignal: Uživatel přihlášen pod ID", anonId);
+              }
             });
           `}
         </Script>
